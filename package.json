@@ -21,7 +21,8 @@
   "type": "commonjs",
   "dependencies": {
     "express": "^4.21.2",
-    "mongoose": "^8.23.1"
+    "mongoose": "^8.23.1",
+    "validator": "^13.15.35"
   },
   "devDependencies": {
     "eslint": "^8.57.1",
