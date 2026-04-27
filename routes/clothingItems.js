@@ -7,18 +7,18 @@ const {
   deleteItem,
 } = require("../controllers/clothingItem");
 
-//CRUD
+// CRUD
 
-//CREATE
+// CREATE
 router.post("/", createItem);
 
-//READ
+// READ
 router.get("/", getItems);
 
-//UPDATE
+// UPDATE
 router.get("/:itemId", updateItem);
 
-//DELETE
-router.delete("/:itemId, deleteItem");
+// DELETE
+router.delete("/:itemId", deleteItem);
 
 module.exports = router;
