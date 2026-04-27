@@ -1,38 +1,49 @@
 const ClothingItem = require("../models/clothingItem");
+const { BAD_REQUEST, INTERNAL_SERVER_ERROR } = require('../utils/errors');
 
 const createItem = (req, res) => {
   console.log(req);
   console.log(req.body);
 
-  const { name, weather, imageURL } = req.body;
+  const { name, weather, imageUrl, owner: req.user._id } = req.body;
 
-  ClothingItem.create({ name, weather, imageURL }).then((item) => {
-    console.log(item);
-    res.send({ data: item }).catch((err) => {
-      res.status(500).send({ message: "Error from createItem", err });
+  ClothingItem.create({ name, weather, imageUrl }).then((item) => {
+    res.status(201).send({data: item});
+  }).catch((err) => {
+    if(err.name === 'ValidationError') {
+      return res.status(BAD_REQUEST).send({message:'Invalid data provided'});
+    }
+      return res.status(INTERNAL_SERVER_ERROR).send({ message: "AN error has come from createItem", err });
     });
-  });
-};
+  };
 
 const getItems = (req, res) => {
   ClothingItem.find({})
     .then((items) => res.status(200).send(items))
     .catch((err) => {
-      res.status(500).send({ message: "Error from getItems", err });
+      res.status(INTERNAL_SERVER_ERROR).send({ message: "Error from getItems", err });
     });
 };
 
-const updateItem = (req, res) => {
-  const { itemId } = req.params;
-  const { imageURL } = req.body;
-
-  ClothingItem.findByIdAndUpdate(itemId, { $set: { imageURL } })
-    .orFail()
-    .then((item) => res.status(200).send({ data: item }))
-    .catch((err) => {
-      res.status(500).send({ message: "Error from updateItem", err });
-    });
+const likeItem = (req, res) => {
+  ClothingItem.findByIdAndUpdate(itemId, { $addToSet: { new: true }})
 };
+
+const dislikeItem = (req, res) => {
+  ClothingItem.findByIdAndUpdate(itemId, { $pull: { new: true }})
+};
+
+// const updateItem = (req, res) => {
+//   const { itemId } = req.params;
+//   const { imageUrl } = req.body;
+
+//   ClothingItem.findByIdAndUpdate(itemId, { $set: { imageUrl } })
+//     .orFail()
+//     .then((item) => res.status(200).send({ data: item }))
+//     .catch((err) => {
+//       res.status(500).send({ message: "Error from updateItem", err });
+//     });
+// };
 
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
@@ -42,8 +53,8 @@ const deleteItem = (req, res) => {
     .orFail()
     .then((item) => res.status(204).send({ data: item }))
     .catch((err) => {
-      res.status(500).send({ message: "Error from deleteItem", err });
+      res.status(INTERNAL_SERVER_ERROR).send({ message: "Error from deleteItem", err });
     });
 };
 
-module.exports = { createItem, getItems, updateItem, deleteItem };
+module.exports = { createItem, getItems, deleteItem, likeItem, dislikeItem };
