@@ -21,7 +21,7 @@ app.use((req, res, next) => {
 });
 app.use("/", mainRouter);
 
-const routes = require("./routes");
+// const routes = require("./routes");
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
