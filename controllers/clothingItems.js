@@ -1,36 +1,56 @@
 const ClothingItem = require("../models/clothingItem");
-const { BAD_REQUEST, INTERNAL_SERVER_ERROR } = require('../utils/errors');
+const { BAD_REQUEST, INTERNAL_SERVER_ERROR } = require("../utils/errors");
 
 const createItem = (req, res) => {
   console.log(req);
   console.log(req.body);
 
-  const { name, weather, imageUrl, owner: req.user._id } = req.body;
+  const { name, weather, imageUrl } = req.body;
 
-  ClothingItem.create({ name, weather, imageUrl }).then((item) => {
-    res.status(201).send({data: item});
-  }).catch((err) => {
-    if(err.name === 'ValidationError') {
-      return res.status(BAD_REQUEST).send({message:'Invalid data provided'});
-    }
-      return res.status(INTERNAL_SERVER_ERROR).send({ message: "AN error has come from createItem", err });
+  ClothingItem.create({ name, weather, imageUrl, owner: req.user._id })
+    .then((item) => {
+      res.status(201).send({ data: item });
+    })
+    .catch((err) => {
+      if (err.name === "ValidationError") {
+        return res
+          .status(BAD_REQUEST)
+          .send({ message: "Invalid data provided" });
+      }
+      return res
+        .status(INTERNAL_SERVER_ERROR)
+        .send({ message: "AN error has come from createItem", err });
     });
-  };
+};
 
 const getItems = (req, res) => {
   ClothingItem.find({})
     .then((items) => res.status(200).send(items))
     .catch((err) => {
-      res.status(INTERNAL_SERVER_ERROR).send({ message: "Error from getItems", err });
+      res
+        .status(INTERNAL_SERVER_ERROR)
+        .send({ message: "Error from getItems", err });
     });
 };
 
 const likeItem = (req, res) => {
-  ClothingItem.findByIdAndUpdate(itemId, { $addToSet: { new: true }})
+  ClothingItem.findByIdAndUpdate(itemId, { $addToSet: { new: true } })
+    .then((items) => res.status(200).send(items))
+    .catch((err) => {
+      res
+        .status(INTERNAL_SERVER_ERROR)
+        .send({ message: "Error from likeItem", err });
+    });
 };
 
 const dislikeItem = (req, res) => {
-  ClothingItem.findByIdAndUpdate(itemId, { $pull: { new: true }})
+  ClothingItem.findByIdAndUpdate(itemId, { $pull: { new: true } })
+    .then((item) => res.status(204).send({ data: item }))
+    .catch((err) => {
+      res
+        .status(INTERNAL_SERVER_ERROR)
+        .send({ message: "Error from dislikeItem", err });
+    });
 };
 
 // const updateItem = (req, res) => {
@@ -53,7 +73,9 @@ const deleteItem = (req, res) => {
     .orFail()
     .then((item) => res.status(204).send({ data: item }))
     .catch((err) => {
-      res.status(INTERNAL_SERVER_ERROR).send({ message: "Error from deleteItem", err });
+      res
+        .status(INTERNAL_SERVER_ERROR)
+        .send({ message: "Error from deleteItem", err });
     });
 };
 

@@ -28,4 +28,4 @@ router.get("/:itemId", likeItem);
 // DISLIKE
 router.delete("/:itemId", dislikeItem);
 
-router.module.exports = router;
+module.exports = router;
