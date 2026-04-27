@@ -34,6 +34,8 @@ const getItems = (req, res) => {
 };
 
 const likeItem = (req, res) => {
+  const { itemId } = req.params;
+
   ClothingItem.findByIdAndUpdate(itemId, { $addToSet: { new: true } })
     .then((items) => res.status(200).send(items))
     .catch((err) => {
@@ -44,6 +46,8 @@ const likeItem = (req, res) => {
 };
 
 const dislikeItem = (req, res) => {
+  const { itemId } = req.params;
+
   ClothingItem.findByIdAndUpdate(itemId, { $pull: { new: true } })
     .then((item) => res.status(204).send({ data: item }))
     .catch((err) => {
