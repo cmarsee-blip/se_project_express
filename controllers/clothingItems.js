@@ -17,15 +17,13 @@ const createItem = (req, res) => {
       res.status(201).send(item);
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       if (err.name === "ValidationError") {
-        return res
-          .status(BAD_REQUEST)
-          .send({ message: "Invalid data provided" });
+        return res.status(BAD_REQUEST).send({ message: "Invalid data" });
       }
       return res
         .status(INTERNAL_SERVER_ERROR)
-        .send({ message: "AN error has come from createItem", err });
+        .send({ message: "An error has occurred on the server" });
     });
 };
 
@@ -33,9 +31,10 @@ const getItems = (req, res) => {
   ClothingItem.find({})
     .then((items) => res.status(200).send(items))
     .catch((err) => {
+      console.error(err);
       res
         .status(INTERNAL_SERVER_ERROR)
-        .send({ message: "Error from getItems", err });
+        .send({ message: "An error has occurred on the servers" });
     });
 };
 
@@ -48,7 +47,7 @@ const likeItem = (req, res) => {
     { new: true }
   )
     .orFail()
-    .then((items) => res.status(200).send(items))
+    .then((items) => res.send(items))
     .catch((err) => {
       console.error(err);
       if (err.name === "DocumentNotFoundError") {
@@ -86,18 +85,6 @@ const dislikeItem = (req, res) => {
         .send({ message: "An error has occurred on the server." });
     });
 };
-
-// const updateItem = (req, res) => {
-//   const { itemId } = req.params;
-//   const { imageUrl } = req.body;
-
-//   ClothingItem.findByIdAndUpdate(itemId, { $set: { imageUrl } })
-//     .orFail()
-//     .then((item) => res.status(200).send({ data: item }))
-//     .catch((err) => {
-//       res.status(500).send({ message: "Error from updateItem", err });
-//     });
-// };
 
 const deleteItem = (req, res) => {
   const { itemId } = req.params;
