@@ -19,7 +19,9 @@ const userSchema = new mongoose.Schema({
     unique: true,
     required: true,
     validate: {
-      validator: (value) => isEmail(value),
+      validator: (value) => {
+        return validator.isEmail(value);
+      },
       message: "Wrong email format",
     },
   },
