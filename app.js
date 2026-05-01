@@ -1,6 +1,15 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const mainRouter = require("./routes/index");
+const {
+  login,
+  createUser,
+  getCurrentUser,
+  updateUser,
+} = require("./controllers/users");
+const auth = require("./middlewares/auth");
+const { createItem } = require("./controllers/clothingItems");
+const cors = require("cors");
 
 const app = express();
 const { PORT = 3001 } = process.env;
@@ -20,6 +29,12 @@ app.use((req, res, next) => {
   next();
 });
 app.use("/", mainRouter);
+app.use(cors());
+app.post("/signin", login);
+app.post("/signup", createUser);
+app.get("/users/me", auth, getCurrentUser);
+app.post("/items", auth, createItem);
+app.patch("/me", updateUser);
 
 // const routes = require("./routes");
 
