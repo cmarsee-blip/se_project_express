@@ -30,8 +30,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.statics.findUserByCredentials = function findUserByCredentials(
   email,
-  password,
-  user
+  password
 ) {
   return this.findOne({ email })
     .select("+password")

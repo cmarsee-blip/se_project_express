@@ -5,8 +5,10 @@ const {
   INTERNAL_SERVER_ERROR,
   NOT_FOUND,
   UNAUTHORIZED,
+  CONFLICT,
 } = require("../utils/errors");
-const { jwt, JWT_SECRET } = require("../utils/config");
+const { JWT_SECRET } = require("../utils/config");
+const jwt = require("jsonwebtoken");
 
 // Get /users
 
@@ -25,12 +27,22 @@ const createUser = async (req, res) => {
   const { name, avatar, email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  User.create({ name, avatar, email, hashedPassword })
-    .then((user) => res.status(201).send(user))
+  User.create({ name, avatar, email, password: hashedPassword })
+    .then((user) =>
+      res.status(201).send({
+        name: user.name,
+        email: user.email,
+        _id: user._id,
+        avatar: user.avatar,
+      })
+    )
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
         return res.status(BAD_REQUEST).send({ message: "Invalid data" });
+      }
+      if (err.code === 11000) {
+        return res.status(CONFLICT).send({ message: "User already exists" });
       }
       return res
         .status(INTERNAL_SERVER_ERROR)
@@ -39,33 +51,35 @@ const createUser = async (req, res) => {
 };
 
 const login = (req, res) => {
-  const token = jwt.sign({ _id: User._id, email: User.email }, JWT_SECRET, {
-    expiresIn: "7d",
-  });
   const { email, password } = req.body;
+  if (!email || !password == null) {
+    return res.status(BAD_REQUEST).send({ message: "Invalid data " });
+  }
+  // check for nullish values in JavaScript
 
   User.findOne({ email })
     .then((user) => {
       if (!user) {
         return Promise.reject(new Error("Incorrect email or password"));
       }
-
-      return bcrypt.compare(password, user.password);
-    })
-    .then((matched) => {
-      if (!matched) {
-        return Promise.reject(new Error("Incorrect email or password"));
-      }
-      res.send({ message: "Everything good!" });
+      return User.findUserByCredentials(email, password)
+        .then((matched) => {
+          if (!matched) {
+            return Promise.reject(new Error("Incorrect email or password"));
+          }
+          const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
+            expiresIn: "7d",
+          });
+          return res.send({ token });
+        })
+        .catch((err) => {
+          return res
+            .status(BAD_REQUEST)
+            .send({ message: "Incorrect email or password" });
+        });
     })
     .catch((err) => {
-      res.status(UNAUTHORIZED).send({ message: err.message });
-    });
-
-  return User.findUserByCredentials(email, password)
-    .then((user) => {})
-    .catch((err) => {
-      res.status(UNAUTHORIZED).send({ message: "Lack valid authorization" });
+      return res.status(UNAUTHORIZED).send({ message: err.message });
     });
 };
 

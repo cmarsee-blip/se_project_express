@@ -28,10 +28,10 @@ app.use((req, res, next) => {
   };
   next();
 });
-app.use("/", mainRouter);
-app.use(cors());
 app.post("/signin", login);
 app.post("/signup", createUser);
+app.use("/", mainRouter);
+app.use(cors());
 app.get("/users/me", auth, getCurrentUser);
 app.post("/items", auth, createItem);
 app.patch("/me", updateUser);
