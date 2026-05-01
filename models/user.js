@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     unique: true,
     required: true,
     validate: {
-      validator: (value) => {
+      validator(value) {
         return validator.isEmail(value);
       },
       message: "Wrong email format",
@@ -30,7 +30,8 @@ const userSchema = new mongoose.Schema({
 
 userSchema.statics.findUserByCredentials = function findUserByCredentials(
   email,
-  password
+  password,
+  user
 ) {
   return this.findOne({ email })
     .select("+password")
