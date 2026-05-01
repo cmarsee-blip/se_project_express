@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 const mainRouter = require("./routes/index");
 const {
   login,
@@ -9,7 +10,6 @@ const {
 } = require("./controllers/users");
 const auth = require("./middlewares/auth");
 const { createItem } = require("./controllers/clothingItems");
-const cors = require("cors");
 
 const app = express();
 const { PORT = 3001 } = process.env;

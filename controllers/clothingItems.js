@@ -103,7 +103,7 @@ const deleteItem = (req, res) => {
       }
       return ClothingItem.findByIdAndDelete(itemId);
     })
-    .then((deletedItem) => {
+    .then(() => {
       res.send({ message: "Item deleted successfully" });
     })
     .catch((err) => {

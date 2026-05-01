@@ -6,7 +6,7 @@ const {
   NOT_FOUND,
   UNAUTHORIZED,
 } = require("../utils/errors");
-const { JWT_SECRET } = require("../utils/config");
+const { jwt, JWT_SECRET } = require("../utils/config");
 
 // Get /users
 
@@ -39,7 +39,7 @@ const createUser = async (req, res) => {
 };
 
 const login = (req, res) => {
-  const token = jwt.sign({ _id: user._id, email: user.email }, JWT_SECRET, {
+  const token = jwt.sign({ _id: User._id, email: User.email }, JWT_SECRET, {
     expiresIn: "7d",
   });
   const { email, password } = req.body;
@@ -65,7 +65,7 @@ const login = (req, res) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {})
     .catch((err) => {
-      res.status(401).send({ message: "Lack valid authorization" });
+      res.status(UNAUTHORIZED).send({ message: "Lack valid authorization" });
     });
 };
 
