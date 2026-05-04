@@ -17,3 +17,7 @@ APIs, Express, MongoDB/Mongoose, Postman
 #### Testing
 
 Before committing your code, make sure you edit the file `sprint.txt` in the root folder. The file `sprint.txt` should contain the number of the sprint you're currently working on. For ex. 12
+
+##### Project Pitch
+
+Here is a link to the project pitch: https://www.loom.com/share/e50887391d49445eb24a73aafec5cee6
