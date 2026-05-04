@@ -5,10 +5,10 @@ const mainRouter = require("./routes/index");
 const {
   login,
   createUser,
-  getCurrentUser,
-  updateUser,
+  // getCurrentUser,
+  // updateUser,
 } = require("./controllers/users");
-const auth = require("./middlewares/auth");
+// const auth = require("./middlewares/auth");
 
 const app = express();
 const { PORT = 3001 } = process.env;

@@ -33,7 +33,7 @@ const createUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = await User.create({
+    return User.create({
       name,
       avatar,
       email,
