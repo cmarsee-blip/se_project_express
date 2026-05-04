@@ -9,7 +9,6 @@ const {
   updateUser,
 } = require("./controllers/users");
 const auth = require("./middlewares/auth");
-const { createItem } = require("./controllers/clothingItems");
 
 const app = express();
 const { PORT = 3001 } = process.env;
