@@ -1,4 +1,5 @@
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const {
   BAD_REQUEST,
@@ -8,7 +9,6 @@ const {
   CONFLICT,
 } = require("../utils/errors");
 const { JWT_SECRET } = require("../utils/config");
-const jwt = require("jsonwebtoken");
 
 // Get /users
 
@@ -52,34 +52,23 @@ const createUser = async (req, res) => {
 
 const login = (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password == null) {
+  if (!email || !password) {
     return res.status(BAD_REQUEST).send({ message: "Invalid data " });
   }
   // check for nullish values in JavaScript
 
-  User.findOne({ email })
+  return User.findUserByCredentials(email, password)
     .then((user) => {
-      if (!user) {
-        return Promise.reject(new Error("Incorrect email or password"));
-      }
-      return User.findUserByCredentials(email, password)
-        .then((matched) => {
-          if (!matched) {
-            return Promise.reject(new Error("Incorrect email or password"));
-          }
-          const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
-            expiresIn: "7d",
-          });
-          return res.send({ token });
-        })
-        .catch((err) => {
-          return res
-            .status(BAD_REQUEST)
-            .send({ message: "Incorrect email or password" });
-        });
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
+        expiresIn: "7d",
+      });
+      return res.send({ token });
     })
     .catch((err) => {
-      return res.status(UNAUTHORIZED).send({ message: err.message });
+      console.log(err);
+      return res
+        .status(BAD_REQUEST)
+        .send({ message: "Incorrect email or password" });
     });
 };
 
@@ -105,18 +94,23 @@ const getUser = (req, res) => {
 const getCurrentUser = (req, res) => {
   const userId = req.user._id; // Getting ID from auth middleware!
 
-  User.findById(userId)
-    .then((user) => res.json(user))
-    .catch((err) =>
+  return User.findById(userId)
+    .then((user) => res.send(user))
+    .catch((err) => {
+      console.log(err);
       res
         .status(INTERNAL_SERVER_ERROR)
-        .json({ message: "An error has occurred on the server" })
-    );
+        .json({ message: "An error has occurred on the server" });
+    });
 };
 
 const updateUser = (req, res) => {
   const { name, avatar } = req.body;
-  User.findByIdAndUpdate(name, avatar)
+  User.findByIdAndUpdate(
+    req.user._id,
+    { name, avatar },
+    { new: true, runValidators: true }
+  )
     .orFail()
     .then((user) => res.status(200).send(user))
     .catch((err) => {

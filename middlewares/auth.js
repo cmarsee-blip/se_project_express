@@ -7,21 +7,23 @@ const auth = (req, res, next) => {
 
   // Check if authorization header exists
   if (!authorization || !authorization.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Authorization required" });
+    return res.status(UNAUTHORIZED).json({ message: "Authorization required" });
   }
 
-  try {
-    // Extract and verify token
-    const token = authorization.replace("Bearer ", "");
-    const payload = jwt.verify(token, JWT_SECRET);
+  // Extract and verify token
+  const token = authorization.replace("Bearer ", "");
+  let payload;
 
-    // Success: Add user info and continue
-    req.user = payload;
-    next();
-  } catch (error) {
+  try {
+    payload = jwt.verify(token, JWT_SECRET);
+  } catch (err) {
     // Token is invalid
     return res.status(UNAUTHORIZED).json({ message: "Invalid token" });
   }
+  // Success: Add user info and continue
+  req.user = payload;
+
+  return next();
 };
 
 module.exports = auth;

@@ -22,19 +22,13 @@ mongoose
   .catch(console.error);
 
 app.use(express.json());
-app.use((req, res, next) => {
-  req.user = {
-    _id: "5d8b8592978f8bd833ca8133",
-  };
-  next();
-});
+
+app.use(cors());
 app.post("/signin", login);
 app.post("/signup", createUser);
 app.use("/", mainRouter);
-app.use(cors());
 app.get("/users/me", auth, getCurrentUser);
-app.post("/items", auth, createItem);
-app.patch("/me", updateUser);
+app.patch("/users/me", auth, updateUser);
 
 // const routes = require("./routes");
 
