@@ -92,19 +92,16 @@ const deleteItem = (req, res) => {
   const currentUserId = req.user._id;
 
   console.log(itemId);
-  ClothingItem.findByIdAndDelete(itemId)
+  ClothingItem.findById(itemId)
     .orFail()
     .then((item) => {
-      if (!item) {
-        return res.status(NOT_FOUND).send({ message: "Item not found" });
-      }
       if (item.owner.toString() !== currentUserId.toString()) {
         return res.status(FORBIDDEN).send({ message: "Access denied" });
       }
       return ClothingItem.findByIdAndDelete(itemId);
     })
-    .then(() => {
-      res.send({ message: "Item deleted successfully" });
+    .then((deletedItem) => {
+      res.send(deletedItem);
     })
     .catch((err) => {
       console.error(err);

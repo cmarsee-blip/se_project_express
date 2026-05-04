@@ -26,8 +26,8 @@ app.use(cors());
 app.post("/signin", login);
 app.post("/signup", createUser);
 app.use("/", mainRouter);
-app.get("/users/me", auth, getCurrentUser);
-app.patch("/users/me", auth, updateUser);
+// app.get("/users/me", auth, getCurrentUser);
+// app.patch("/users/me", auth, updateUser);
 
 // const routes = require("./routes");
 
