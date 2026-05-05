@@ -2,13 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const mainRouter = require("./routes/index");
-const {
-  login,
-  createUser,
-  // getCurrentUser,
-  // updateUser,
-} = require("./controllers/users");
-// const auth = require("./middlewares/auth");
 
 const app = express();
 const { PORT = 3001 } = process.env;
@@ -21,15 +14,9 @@ mongoose
   .catch(console.error);
 
 app.use(express.json());
-
 app.use(cors());
-app.post("/signin", login);
-app.post("/signup", createUser);
-app.use("/", mainRouter);
-// app.get("/users/me", auth, getCurrentUser);
-// app.patch("/users/me", auth, updateUser);
 
-// const routes = require("./routes");
+app.use("/", mainRouter);
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);

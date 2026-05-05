@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
       message: "Wrong email format",
     },
   },
-  password: { type: String, required: true, select: false, minlength: 10 },
+  password: { type: String, required: true, select: false },
 });
 
 userSchema.statics.findUserByCredentials = function findUserByCredentials(
