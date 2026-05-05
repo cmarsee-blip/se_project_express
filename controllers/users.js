@@ -32,14 +32,14 @@ const createUser = (req, res) => {
 
   return bcrypt
     .hash(password, 10)
-    .then((hashedPassword) => {
-      return User.create({
+    .then((hashedPassword) =>
+      User.create({
         name,
         avatar,
         email,
         password: hashedPassword,
-      });
-    })
+      })
+    )
     .then((user) => {
       res.status(201).send({
         name: user.name,
@@ -77,6 +77,7 @@ const login = (req, res) => {
       return res.send({ token });
     })
     .catch((err) => {
+      // eslint-disable-next-line no-console
       console.log(err);
       return res
         .status(UNAUTHORIZED)
@@ -110,6 +111,7 @@ const getCurrentUser = (req, res) => {
     .orFail()
     .then((user) => res.send(user))
     .catch((err) => {
+      // eslint-disable-next-line no-console
       console.log(err);
       if (err.name === "DocumentNotFoundError") {
         return res.status(NOT_FOUND).send({ message: "User not found" });

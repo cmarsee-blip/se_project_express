@@ -7,7 +7,9 @@ const {
 } = require("../utils/errors");
 
 const createItem = (req, res) => {
+  // eslint-disable-next-line no-console
   console.log(req);
+  // eslint-disable-next-line no-console
   console.log(req.body);
 
   const { name, weather, imageUrl } = req.body;
@@ -91,6 +93,7 @@ const deleteItem = (req, res) => {
   const { itemId } = req.params;
   const currentUserId = req.user._id;
 
+  // eslint-disable-next-line no-console
   console.log(itemId);
   ClothingItem.findById(itemId)
     .orFail()
@@ -98,10 +101,10 @@ const deleteItem = (req, res) => {
       if (item.owner.toString() !== currentUserId.toString()) {
         return res.status(FORBIDDEN).send({ message: "Access denied" });
       }
-      return ClothingItem.findByIdAndDelete(itemId);
-    })
-    .then((deletedItem) => {
-      res.send(deletedItem);
+      return ClothingItem.findByIdAndDelete(itemId).then((deletedItem) => {
+        // Only one response is sent, and it's the deleted item
+        res.send(deletedItem);
+      });
     })
     .catch((err) => {
       console.error(err);
