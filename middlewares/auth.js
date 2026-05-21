@@ -23,6 +23,20 @@ const auth = (req, res, next) => {
   // Success: Add user info and continue
   req.user = payload;
 
+  // const token = req.cookies.jwt;
+
+  // if (!token) {
+  //   return res.status(401).send({ message: "Authorization required" });
+  // }
+
+  // try {
+  //   const payload = jwt.verify(token, JWT_SECRET);
+  //   req.user = payload;
+  //   next();
+  // } catch (err) {
+  //   return res.status(401).send({ message: "Invalid token" });
+  // }
+
   return next();
 };
 

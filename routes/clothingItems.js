@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const auth = require("../middlewares/auth");
+const { validateCardBody } = require("../middlewares/validation");
 
 const {
   createItem,
@@ -14,7 +15,8 @@ router.get("/", getItems);
 router.use(auth);
 
 // CREATE
-router.post("/", createItem);
+// router.post("/", createItem);
+router.post("/", validateCardBody, createItem);
 
 // READ
 
