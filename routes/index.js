@@ -7,6 +7,11 @@ const userRouter = require("./users");
 
 router.use("/users", userRouter);
 router.use("/items", clothingItem);
+router.get("/crash-test", () => {
+  setTimeout(() => {
+    throw new Error("Server will crash now");
+  }, 0);
+});
 router.post("/signin", login);
 router.post("/signup", createUser);
 

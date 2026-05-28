@@ -21,3 +21,10 @@ Before committing your code, make sure you edit the file `sprint.txt` in the roo
 ##### Project Pitch
 
 Here is a link to the project pitch: https://www.loom.com/share/e50887391d49445eb24a73aafec5cee6
+
+Spint 15 Project Pitch: https://www.loom.com/share/28e6471ec8f2475d8ff7fe9462f12b02
+
+###### Domain name & GitHub Repo
+
+Domain: https://www.cmwtwr.largent.org
+Fontend Repo: https://github.com/cmarsee-blip/se_project_react.git
