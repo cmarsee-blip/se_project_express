@@ -1,13 +1,14 @@
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../utils/config");
-const { UNAUTHORIZED } = require("../utils/errors");
+const { UnauthorizedError } = require("./error-handler");
 
 const auth = (req, res, next) => {
   const { authorization } = req.headers;
 
   // Check if authorization header exists
   if (!authorization || !authorization.startsWith("Bearer ")) {
-    return res.status(UNAUTHORIZED).json({ message: "Authorization required" });
+    // delegate to centralized error handler
+    return next(new UnauthorizedError("Authorization required"));
   }
 
   // Extract and verify token
@@ -18,24 +19,11 @@ const auth = (req, res, next) => {
     payload = jwt.verify(token, JWT_SECRET);
   } catch (err) {
     // Token is invalid
-    return res.status(UNAUTHORIZED).json({ message: "Invalid token" });
+    // delegate to centralized error handler
+    return next(new UnauthorizedError("Invalid token"));
   }
   // Success: Add user info and continue
   req.user = payload;
-
-  // const token = req.cookies.jwt;
-
-  // if (!token) {
-  //   return res.status(401).send({ message: "Authorization required" });
-  // }
-
-  // try {
-  //   const payload = jwt.verify(token, JWT_SECRET);
-  //   req.user = payload;
-  //   next();
-  // } catch (err) {
-  //   return res.status(401).send({ message: "Invalid token" });
-  // }
 
   return next();
 };

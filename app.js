@@ -4,10 +4,10 @@ const cors = require("cors");
 require("dotenv").config();
 // const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
-const errorHandler = require("./middlewares/error-handler");
 const { errors } = require("celebrate");
+const errorHandler = require("./middlewares/error-handler");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
-const { sanitizeInput } = require("./utils/validation");
+// const { sanitizeInput } = require("./utils/validation");
 const mainRouter = require("./routes/index");
 
 const app = express();
