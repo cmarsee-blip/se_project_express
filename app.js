@@ -5,7 +5,7 @@ require("dotenv").config();
 // const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const { errors } = require("celebrate");
-const errorHandler = require("./middlewares/error-handler");
+const { errorHandler } = require("./middlewares/error-handler");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 // const { sanitizeInput } = require("./utils/validation");
 const mainRouter = require("./routes/index");
