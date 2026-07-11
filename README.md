@@ -1,30 +1,50 @@
-# WTWR (What to Wear?): Back End
+# WTWR (What to Wear?) — Back End
 
-The back-end project is focused on creating a server for the WTWR application. You’ll gain a deeper understanding of how to work with databases, set up security and testing, and deploy web applications on a remote machine. The eventual goal is to create a server with an API and user authorization.
+The API server for WTWR, managing user profiles and clothing items and serving weather-matched wardrobe data.
 
-This is designed to allow users to add & delete clothing items on their profile so that when the weather (which is updated based on the user's location) is updated, it will filter what they could possibly wear based on their clothing items.
-
-## Technology Used
-
-APIs, Express, MongoDB/Mongoose, Postman
-
-### Running the Project
-
-`npm run start` — to launch the server
-
-`npm run dev` — to launch the server with the hot reload feature
-
-#### Testing
-
-Before committing your code, make sure you edit the file `sprint.txt` in the root folder. The file `sprint.txt` should contain the number of the sprint you're currently working on. For ex. 12
-
-##### Project Pitch
-
-Here is a link to the project pitch: https://www.loom.com/share/e50887391d49445eb24a73aafec5cee6
-
+🔗 **Live Demo:** [cmwtwr.largent.org](https://cmwtwr.largent.org) &nbsp;|&nbsp; 🎥 **Demo Video:** project pitch: https://www.loom.com/share/e50887391d49445eb24a73aafec5cee6
 Spint 15 Project Pitch: https://www.loom.com/share/28e6471ec8f2475d8ff7fe9462f12b02
 
-###### Domain name & GitHub Repo
+**Companion repo:** [WTWR — Front End](https://github.com/cmarsee-blip/se_project_react)
 
-Domain: https://www.cmwtwr.largent.org
-Fontend Repo: https://github.com/cmarsee-blip/se_project_react.git
+---
+
+## 📖 Overview
+
+This is the backend for the WTWR application. The goal was to build a REST API that stores users' clothing items and profiles, and supports the front end's weather-based outfit recommendations.
+
+## 🛠️ What I Built & How
+
+I built a Node.js/Express server backed by MongoDB (via Mongoose) that exposes endpoints for managing clothing items — adding and deleting items tied to a user's wardrobe — and supports filtering that wardrobe data to match current weather conditions requested by the front end.
+
+**Key features:**
+- Add and delete clothing items via REST endpoints
+- MongoDB/Mongoose data models for users and clothing items
+- Filtering logic to match wardrobe items to weather conditions
+- Deployed and running live
+
+**Built with:** Express, Node.js, MongoDB, Mongoose, Postman
+
+## 🖼️ Screenshots
+
+<!-- Backend projects often don't have UI screenshots — consider an architecture diagram or a screenshot of API responses (e.g. Postman) instead. -->
+![API response example](path/to/screenshot.png)
+
+## ⚙️ Running It Locally
+
+```bash
+git clone https://github.com/cmarsee-blip/se_project_express.git
+cd se_project_express
+npm install
+npm run start   # or: npm run dev (with hot reload)
+```
+Requires a running MongoDB instance and any relevant environment variables (DB connection string, JWT secret, etc.) configured before starting.
+
+## ✅ Results
+
+The API is live at [cmwtwr.largent.org](https://cmwtwr.largent.org) and successfully serves the companion React front end with user and clothing item data.
+
+## 🚀 Future Improvements
+
+- Fix [add a specific limitation you noticed] using [your planned approach] to achieve [the outcome].
+- Fix [add a specific limitation you noticed] using [your planned approach] to achieve [the outcome].
