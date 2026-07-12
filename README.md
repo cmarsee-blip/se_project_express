@@ -27,14 +27,14 @@ I built a Node.js/Express server backed by MongoDB (via Mongoose) that exposes e
 
 ## 🏗️ Architecture
 
-​```mermaid
+​`mermaid
 graph LR
     A[React Front End<br/>se_project_react] -->|HTTP requests + JWT| B[Express Server<br/>se_project_express]
     A -->|weather lookup| E[OpenWeatherAPI]
     B -->|Mongoose ODM| C[(MongoDB)]
     B --> F[Auth: signup / signin]
     B --> G[Clothing Items: add / delete]
-```
+`
 
 ## ⚙️ Running It Locally
 
