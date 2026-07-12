@@ -23,18 +23,18 @@ I built a Node.js/Express server backed by MongoDB (via Mongoose) that exposes e
 - Filtering logic to match wardrobe items to weather conditions
 - Deployed and running live
 
-**Built with:** Express, Node.js, MongoDB, Mongoose, Postman
+**Built with:** Express, Node.js, MongoDB, Mongoose
 
 ## 🏗️ Architecture
 
-​`mermaid
+```mermaid
 graph LR
     A[React Front End<br/>se_project_react] -->|HTTP requests + JWT| B[Express Server<br/>se_project_express]
     A -->|weather lookup| E[OpenWeatherAPI]
     B -->|Mongoose ODM| C[(MongoDB)]
     B --> F[Auth: signup / signin]
     B --> G[Clothing Items: add / delete]
-`
+```
 
 ## ⚙️ Running It Locally
 
