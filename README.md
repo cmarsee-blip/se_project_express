@@ -34,7 +34,7 @@ graph LR
     B -->|Mongoose ODM| C[(MongoDB)]
     B --> F[Auth: signup / signin]
     B --> G[Clothing Items: add / delete]
-​```
+```
 
 ## ⚙️ Running It Locally
 
