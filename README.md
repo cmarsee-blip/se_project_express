@@ -50,7 +50,7 @@ Requires a running MongoDB instance and any relevant environment variables (DB c
 
 ## ✅ Results
 
-The API is live at [cmwtwr.largent.org](https://cmwtwr.largent.org) and successfully serves the companion React front end with user and clothing item data.
+The API was live at [cmwtwr.largent.org](https://cmwtwr.largent.org) and successfully served the companion React front end with user and clothing item data but that was hosted by a program with a free trial that was used during bootcamp & has now expired.
 
 ## 🚀 Future Improvements
 
